@@ -1,5 +1,6 @@
 import type React from 'react';
 import {useContext, useEffect} from 'react';
+import {ConfigInternals} from 'remotion';
 import {useKeybinding} from '../helpers/use-keybinding';
 import {CheckerboardContext} from '../state/checkerboard';
 import {ModalsContext} from '../state/modals';
@@ -44,17 +45,22 @@ export const GlobalKeybindings: React.FC = () => {
 			commandCtrlKey: true,
 			preventDefault: true,
 		});
-		const cmdIKey = keybindings.registerKeybinding({
-			event: 'keydown',
-			key: 'i',
-			callback: () => {
-				askAiModalRef.current?.toggle();
-			},
-			triggerIfInputFieldFocused: true,
-			keepRegisteredWhenNotHighestContext: true,
-			commandCtrlKey: true,
-			preventDefault: true,
-		});
+
+		// Only register Cmd+I for Ask AI if the feature is enabled
+		const askAiFeatureEnabled = ConfigInternals.getAskAiFeatureEnabled();
+		const cmdIKey = askAiFeatureEnabled
+			? keybindings.registerKeybinding({
+					event: 'keydown',
+					key: 'i',
+					callback: () => {
+						askAiModalRef.current?.toggle();
+					},
+					triggerIfInputFieldFocused: true,
+					keepRegisteredWhenNotHighestContext: true,
+					commandCtrlKey: true,
+					preventDefault: true,
+				})
+			: null;
 
 		const cKey = keybindings.registerKeybinding({
 			event: 'keypress',
@@ -108,7 +114,7 @@ export const GlobalKeybindings: React.FC = () => {
 			cKey.unregister();
 			questionMark.unregister();
 			cmdKKey.unregister();
-			cmdIKey.unregister();
+			cmdIKey?.unregister();
 			pageDown.unregister();
 			pageUp.unregister();
 		};
