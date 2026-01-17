@@ -74,6 +74,10 @@ import {
 	getKeyboardShortcutsEnabled,
 	setKeyboardShortcutsEnabled,
 } from './keyboard-shortcuts';
+import {
+	getAskAiFeatureEnabled,
+	setAskAiFeatureEnabled,
+} from './ask-ai-feature';
 import {getMetadata, setMetadata} from './metadata';
 import {setNumberOfSharedAudioTags} from './number-of-shared-audio-tags';
 import {getShouldOpenBrowser, setShouldOpenBrowser} from './open-browser';
@@ -189,6 +193,12 @@ declare global {
 		 * @default true
 		 */
 		readonly setKeyboardShortcutsEnabled: (enableShortcuts: boolean) => void;
+		/**
+		 * Enable the Ask AI feature in the Remotion Studio.
+		 * @param enabled Boolean whether to enable the Ask AI feature
+		 * @default true
+		 */
+		readonly setAskAiFeatureEnabled: (enabled: boolean) => void;
 		/**
 		 * Enable WIP client-side rendering in the Remotion Studio.
 		 * See https://www.remotion.dev/docs/client-side-rendering/ for notes.
@@ -641,6 +651,7 @@ export const Config: FlatConfig = {
 	},
 	setMaxTimelineTracks: StudioServerInternals.setMaxTimelineTracks,
 	setKeyboardShortcutsEnabled,
+	setAskAiFeatureEnabled,
 	setExperimentalClientSideRenderingEnabled,
 	setNumberOfSharedAudioTags,
 	setWebpackPollingInMilliseconds,
@@ -751,6 +762,7 @@ export const ConfigInternals = {
 	getMaxTimelineTracks: StudioServerInternals.getMaxTimelineTracks,
 	defaultOverrideFunction,
 	getKeyboardShortcutsEnabled,
+	getAskAiFeatureEnabled,
 	getExperimentalClientSideRenderingEnabled,
 	getFfmpegOverrideFunction,
 	getHeight,
